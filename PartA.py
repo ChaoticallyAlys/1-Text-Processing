@@ -65,3 +65,28 @@ def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
             token_dict[token] += 1
 
     return token_dict
+
+
+def printFrequencies(token_dict: dict[Token, int]) -> None:
+    ordered = _sort_frequencies(token_dict)
+    for token, count in ordered.items():
+        print(f"{token} - {count}")
+
+def _sort_frequencies(token_dict: dict[Token, int]) -> dict[Token, int]:
+    ordered = dict()
+
+    largest = None
+    largest_count = -1
+
+    while len(token_dict) != 0:
+        for token, count in token_dict.items():
+            if largest is None or (count > largest_count and token < largest):
+                largest = token
+                largest_count = count
+
+        ordered[largest] = token_dict.pop(largest)
+
+        largest = None
+        largest_count = -1
+
+    return ordered
