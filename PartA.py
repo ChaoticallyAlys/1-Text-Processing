@@ -59,6 +59,9 @@ def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
 
     token_dict = dict()
     for token in token_list:
-        token_dict[token] += 1
+        if token not in token_dict:
+            token_dict[token] = 1
+        else:
+            token_dict[token] += 1
 
     return token_dict
