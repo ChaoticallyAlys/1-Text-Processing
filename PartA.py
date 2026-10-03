@@ -9,6 +9,14 @@ class Token:
         """Gets stored Token information"""
         return self._token
 
+    def __lt__(self, other):
+        """Returns true if Token is less than the other"""
+        return self._token < other.token()
+
+    def __le__(self, other):
+        """Returns true if Token is less than or equal to the other"""
+        return self._token <= other.token()
+
     def __eq__(self, other):
         """Returns true if Tokens are equivalent"""
         return self._token == other.token()
@@ -80,7 +88,7 @@ def _sort_frequencies(token_dict: dict[Token, int]) -> dict[Token, int]:
 
     while len(token_dict) != 0:
         for token, count in token_dict.items():
-            if largest is None or (count > largest_count and token < largest):
+            if largest is None or count > largest_count or (count==largest_count and token < largest):
                 largest = token
                 largest_count = count
 
