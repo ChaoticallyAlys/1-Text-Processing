@@ -18,7 +18,7 @@ class Token:
         return hash(self._token)
 
     def __repr__(self):
-        """Returns the str stored as its representation"""
+        """Returns the str stored for debugging"""
         return self._token
 
 
