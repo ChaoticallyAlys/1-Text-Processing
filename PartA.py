@@ -2,11 +2,23 @@ from pathlib import Path
 
 class Token:
     def __init__(self, token: str) -> None:
-        """Initializes Token"""
-        self._token = token
+        """Initializes Token according to specifications"""
+        self._token = "".join([c for c in token.strip().lower() if c.isalnum()])
 
     def token(self):
         """Gets stored Token information"""
+        return self._token
+
+    def __eq__(self, other):
+        """Returns true if Tokens are equivalent"""
+        return self._token == other.token()
+
+    def __hash__(self):
+        """Returns a hash of the str stored in Token"""
+        return hash(self._token)
+
+    def __repr__(self):
+        """Returns the str stored as its representation"""
         return self._token
 
 
@@ -39,5 +51,12 @@ def _parse_file(file, token_list: list[Token]):
             break
 
         for word in line.split():
-            if word.isalnum():
-                token_list.append(Token(word.strip().lower()))
+            token_list.append(Token(word))
+
+
+def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
+    """Counts the occurrences of each Token in the list"""
+
+    token_dict = dict()
+    for token in token_list:
+        token_dict[token] += 1
