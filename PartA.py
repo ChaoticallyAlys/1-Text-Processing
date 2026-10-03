@@ -59,7 +59,10 @@ def _parse_file(file, token_list: list[Token]):
             break
 
         for word in line.split():
-            token_list.append(Token(word))
+            t = Token(word)
+
+            if t.token() != "":
+                token_list.append(t)
 
 
 def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
