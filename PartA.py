@@ -34,24 +34,25 @@ def tokenize(text_file_path: Path) -> list[Token]:
     """Parses text file into list of Tokens"""
     token_list = []
 
-    if text_file_path.exists() and text_file_path.is_file():
-        file = None
-        try:
-            file = text_file_path.open('r')
-            _parse_file(file, token_list)
+    file = None
+    try:
+        file = text_file_path.open('r')
+
+        for t in _parse_file(file):
+            token_list.append(t)
+
+        file.close()
+    except:
+        # file cannot be opened/read
+        pass
+    finally:
+        if file is not None:
             file.close()
-        except:
-            # file cannot be opened/read
-            pass
-        finally:
-            # always close file
-            if file!=None:
-                file.close()
 
     return token_list
 
-def _parse_file(file, token_list: list[Token]):
-    """Splits read text into Tokens"""
+def _parse_file(file):
+    """Generates Tokens from read text"""
 
     while True:
         line = file.readline()
@@ -62,7 +63,7 @@ def _parse_file(file, token_list: list[Token]):
             t = Token(word)
 
             if t.token() != "":
-                token_list.append(t)
+                yield t
 
 
 def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
