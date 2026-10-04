@@ -1,8 +1,8 @@
 from PartA import Path, tokenize, _parse_file
 
 
-def _print_common(input_file1: Path) -> None:
-    set1 = set(tokenize(input_file1))
+def _print_common(input_file: Path) -> None:
+    set1 = set(tokenize(input_file))
 
     count = 0
     try:
