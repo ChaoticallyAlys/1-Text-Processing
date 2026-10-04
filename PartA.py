@@ -51,10 +51,12 @@ def _parse_file(file):
         if line == "":
             break
 
+        # replace all non-alphanumeric chars with space, then split by spaces
         line = "".join(c if c.isalnum() else " " for c in line)
         for word in line.split():
             t = Token(word)
 
+            # ensures no empty tokens are stored
             if t.token() != "":
                 yield t
 
@@ -86,7 +88,8 @@ def _sort_frequencies(token_dict: dict[Token, int]) -> dict[Token, int]:
 
     largest = None
     largest_count = -1
-
+    # finds the token with the largest count, then appends it to ordered and pops it from token_dict
+    # if tokens are tied, then they're chosen alphabetically
     while len(token_dict) != 0:
         for token, count in token_dict.items():
             if largest is None or count > largest_count or (count==largest_count and token < largest):
