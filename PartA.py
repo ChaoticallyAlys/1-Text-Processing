@@ -34,9 +34,12 @@ def tokenize(text_file_path: Path) -> list[Token]:
     """Parses text file into list of Tokens"""
     token_list = []
 
-    with text_file_path.open('r') as file:
-        for t in _parse_file(file):
-            token_list.append(t)
+    try:
+        with text_file_path.open('r') as file:
+            for t in _parse_file(file):
+                token_list.append(t)
+    except:
+        pass
 
     return token_list
 
