@@ -1,9 +1,20 @@
 from pathlib import Path
 
+class BadInput(Exception):
+    pass
+
 class Token:
     def __init__(self, token: str) -> None:
         """Initializes Token according to specifications"""
-        self._token = token.strip().lower()
+        # no spaces & lowercase
+        token = token.strip().lower()
+
+        # raises error if non-English char found
+        for c in token:
+            if not (('a' <= c <= 'z') or ('0' <= c <= '9')):
+                raise BadInput
+
+        self._token = token
 
     def token(self):
         """Gets stored Token information"""
@@ -54,11 +65,11 @@ def _parse_file(file):
         # replace all non-alphanumeric chars with space, then split by spaces
         line = "".join(c if c.isalnum() else " " for c in line)
         for word in line.split():
-            t = Token(word)
-
-            # ensures no empty tokens are stored
-            if t.token() != "":
+            try:
+                t = Token(word)
                 yield t
+            except BadInput:
+                pass
 
 
 def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
