@@ -3,7 +3,7 @@ from pathlib import Path
 class Token:
     def __init__(self, token: str) -> None:
         """Initializes Token according to specifications"""
-        self._token = "".join([c for c in token.strip().lower() if c.isalnum()])
+        self._token = token.strip().lower()
 
     def token(self):
         """Gets stored Token information"""
@@ -59,6 +59,7 @@ def _parse_file(file):
         if line == "":
             break
 
+        line = "".join(c if c.isalnum() else " " for c in line)
         for word in line.split():
             t = Token(word)
 
