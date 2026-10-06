@@ -4,6 +4,8 @@ class BadInput(Exception):
     pass
 
 class Token:
+    # O(n) - strip(), lower(), and the for-loop checking for non-English
+    # chars takes O(n) time, each, where n is the num of chars in token
     def __init__(self, token: str) -> None:
         """Initializes Token according to specifications"""
         # no spaces & lowercase
@@ -16,31 +18,44 @@ class Token:
 
         self._token = token
 
+    # O(1) - returning a string takes O(1) time
     def token(self):
         """Gets stored Token information"""
         return self._token
 
+    # O(n) - comparing a string depends on its length,
+    # so it takes O(n) time where n is the num of chars of the shorter string
     def __lt__(self, other):
         """Returns true if Token is less than the other"""
         return self._token < other.token()
 
+    # O(n) - comparing a string depends on its length,
+    # so it takes O(n) time where n is the num of chars of the shorter string
     def __le__(self, other):
         """Returns true if Token is less than or equal to the other"""
         return self._token <= other.token()
 
+    # O(n) - comparing a string depends on its length,
+    # so it takes O(n) time where n is the num of chars of the shorter string
     def __eq__(self, other):
         """Returns true if Tokens are equivalent"""
         return self._token == other.token()
 
+    # O(n) - hashing a string depends on its length,
+    # so it takes O(n) time where n is the num of chars in _token
     def __hash__(self):
         """Returns a hash of the str stored in Token"""
         return hash(self._token)
 
+    # O(1) - returning a string takes O(1) time
     def __repr__(self):
         """Returns the str stored for debugging"""
         return self._token
 
 
+# O(n) - the for loop calls the generator and appends each
+# processed token to the list only once,
+# so this takes O(n) time, where n is the num of tokens in the file
 def tokenize(text_file_path: Path) -> list[Token]:
     """Parses text file into list of Tokens"""
     token_list = []
@@ -54,6 +69,12 @@ def tokenize(text_file_path: Path) -> list[Token]:
 
     return token_list
 
+# O(n) - although each token undergoes multiple operations,
+# they are processed only once, thus taking O(n) time,
+# where n is the number of tokens in the file
+#
+# the operations performed on each individual character also
+# takes O(n) time, if n is the number of chars in the file
 def _parse_file(file):
     """Generates Tokens from read text"""
 
@@ -72,6 +93,8 @@ def _parse_file(file):
                 pass
 
 
+# O(n) - each token in the list is accessed once,
+# so this takes O(n) time, where n is the number of tokens in token_list
 def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
     """Counts the occurrences of each Token in the list"""
 
@@ -85,6 +108,8 @@ def computeWordFrequencies(token_list: list[Token]) -> dict[Token, int]:
     return token_dict
 
 
+# O(n^2) - printing out each token and their count takes O(n) time,
+# but _sort_frequencies takes O(n^2), where n is the number of tokens in token_dict
 def printFrequencies(token_dict: dict[Token, int]) -> None:
     """Prints the frequencies of each Token"""
 
@@ -92,6 +117,9 @@ def printFrequencies(token_dict: dict[Token, int]) -> None:
     for token, count in ordered.items():
         print(f"{token} - {count}")
 
+# O(n^2) - while loop loops through the n tokens in the dict(),
+# then removes one, then loops again until the dict() is empty
+# n + (n-1) + (n-2)... = n(n+1)/2 = approximately O(n^2) time,
 def _sort_frequencies(token_dict: dict[Token, int]) -> dict[Token, int]:
     """Sorts the dict of Tokens by frequency, then alphabetically"""
 

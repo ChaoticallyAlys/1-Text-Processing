@@ -3,6 +3,9 @@ from pathlib import Path
 from PartA import tokenize, _parse_file
 
 
+# O(n) - set(), tokenize(), and _parse_file all take O(n) time,
+# and the for loop to compare the two files' tokens also takes O(n) time,
+# where n is the number of tokens from the longer file
 def _print_common(input_file1: Path, input_file2: Path) -> None:
     """Prints common Tokens & num of common Tokens"""
 
@@ -19,7 +22,6 @@ def _print_common(input_file1: Path, input_file2: Path) -> None:
                     set1.remove(t)
     except:
         pass
-
     print(count)
 
 
